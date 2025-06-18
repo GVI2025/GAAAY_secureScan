@@ -1,4 +1,3 @@
-
 from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
@@ -16,6 +15,8 @@ import app.models.emplacement
 import app.models.implantation
 import app.models.mission
 import app.models.reception
+import app.models.salle
+import app.models.reservation
 
 # Alembic config
 config = context.config

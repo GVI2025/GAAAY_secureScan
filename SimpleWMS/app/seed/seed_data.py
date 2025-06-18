@@ -1,4 +1,3 @@
-
 from app.database.database import SessionLocal
 from app.models.article import Article, CategorieArticle
 from app.models.agent import Agent
@@ -7,14 +6,18 @@ from app.models.emplacement import Emplacement, TypeEmplacement
 from app.models.implantation import Implantation
 from app.models.mission import Mission, TypeMission, EtatMission
 from app.models.reception import Reception
+from app.models.salle import Salle
+from app.models.reservation import Reservation
 
-from datetime import datetime, date
+from datetime import datetime, date, time
 from sqlalchemy.exc import IntegrityError
 
 def seed():
     db = SessionLocal()
     try:
         # Nettoyage de la base (dans l'ordre inverse des dépendances)
+        db.query(Reservation).delete()
+        db.query(Salle).delete()
         db.query(Mission).delete()
         db.query(Reception).delete()
         db.query(Implantation).delete()
@@ -921,8 +924,91 @@ def seed():
             ),
         ]
 
+        # === SALLES ===
+        salles = [
+            Salle(
+                id='salle-001',
+                nom='Salle de réunion Alpha',
+                capacite=8,
+                localisation='Bâtiment A - 1er étage',
+                disponible=True,
+            ),
+            Salle(
+                id='salle-002',
+                nom='Salle de conférence Beta',
+                capacite=20,
+                localisation='Bâtiment A - 2ème étage',
+                disponible=True,
+            ),
+            Salle(
+                id='salle-003',
+                nom='Salle de formation Gamma',
+                capacite=15,
+                localisation='Bâtiment B - Rez-de-chaussée',
+                disponible=False,
+            ),
+            Salle(
+                id='salle-004',
+                nom='Amphithéâtre Delta',
+                capacite=50,
+                localisation='Bâtiment C - Rez-de-chaussée',
+                disponible=True,
+            ),
+            Salle(
+                id='salle-005',
+                nom='Salle de créativité Epsilon',
+                capacite=6,
+                localisation='Bâtiment A - 3ème étage',
+                disponible=True,
+            ),
+        ]
+
+        # === RESERVATIONS ===
+        reservations = [
+            Reservation(
+                id='res-001',
+                salle_id='salle-001',
+                date=date(2025, 1, 15),
+                heure=time(9, 0),
+                utilisateur='marie.dupont@example.com',
+                commentaire='Réunion équipe dev',
+            ),
+            Reservation(
+                id='res-002',
+                salle_id='salle-001',
+                date=date(2025, 1, 15),
+                heure=time(14, 0),
+                utilisateur='pierre.martin@example.com',
+                commentaire='Point hebdomadaire',
+            ),
+            Reservation(
+                id='res-003',
+                salle_id='salle-002',
+                date=date(2025, 1, 16),
+                heure=time(10, 0),
+                utilisateur='claire.bernard@example.com',
+                commentaire='Présentation client',
+            ),
+            Reservation(
+                id='res-004',
+                salle_id='salle-004',
+                date=date(2025, 1, 17),
+                heure=time(15, 0),
+                utilisateur='jean.durand@example.com',
+                commentaire='Formation sécurité',
+            ),
+            Reservation(
+                id='res-005',
+                salle_id='salle-005',
+                date=date(2025, 1, 18),
+                heure=time(11, 0),
+                utilisateur='sophie.legrand@example.com',
+                commentaire='Brainstorming innovation',
+            ),
+        ]
+
         # Ajout global
-        db.add_all(articles + agents + commandes + lignes_commandes + emplacements + implantations + missions + receptions)
+        db.add_all(articles + agents + commandes + lignes_commandes + emplacements + implantations + missions + receptions + salles + reservations)
         db.commit()
         print("Données de test insérées avec succès.")
 

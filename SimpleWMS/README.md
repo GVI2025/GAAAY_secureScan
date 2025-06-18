@@ -44,11 +44,23 @@ poetry shell
 
 ### 5. Configurer la base de données
 
+Générer une nouvelle migration pour les tables salles et réservations :
+```bash
+alembic revision --autogenerate -m "Add salles and reservations tables"
+```
+
+Appliquer les migrations :
 ```bash
 alembic upgrade head
 ```
 
-### 6. Lancer l'application
+### 6. Données de test (optionnel)
+
+```bash
+python -m app.seed.seed_data
+```
+
+### 7. Lancer l'application
 
 ```bash
 uvicorn app.main:app --reload
@@ -78,6 +90,7 @@ app/
 ├── database/          # DB session and engine
 ├── main.py            # FastAPI app
 alembic/               # Alembic migrations
+tests/                 # Unit tests
 ```
 
 ---
