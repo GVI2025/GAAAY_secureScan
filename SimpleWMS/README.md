@@ -44,8 +44,12 @@ poetry shell
 
 ### 5. Configurer la base de données
 
-**Important** : Générer et appliquer les migrations pour créer les tables :
+**Option A - Script rapide (recommandé pour développement) :**
+```bash
+python create_tables.py
+```
 
+**Option B - Avec Alembic (pour production) :**
 ```bash
 # Générer une nouvelle migration pour les tables salles et réservations
 alembic revision --autogenerate -m "Add salles and reservations tables"
@@ -127,8 +131,14 @@ Ces scripts sont définis dans `pyproject.toml`:
 
 ### Erreur "no such table"
 
-Si vous obtenez l'erreur `no such table: reservations`, cela signifie que les migrations n'ont pas été appliquées :
+Si vous obtenez l'erreur `no such table: salles` ou `no such table: reservations` :
 
+**Solution rapide :**
+```bash
+python create_tables.py
+```
+
+**Solution avec Alembic :**
 ```bash
 # Générer la migration
 alembic revision --autogenerate -m "Add missing tables"

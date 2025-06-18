@@ -8,13 +8,10 @@ class Salle(Base):
     __tablename__ = "salles"
 
     id = Column(String, primary_key=True, default=lambda: str(uuid4()))
-    nom = Column(String, nullable=False)
+    nom = Column(String, nullable=False, unique=True)
     capacite = Column(Integer, nullable=False)
     localisation = Column(String, nullable=False)
-    disponible = Column(Boolean, default=True)  # Added for v1.1.0
+    disponible = Column(Boolean, default=True)
 
     # Relationship with reservations
-    reservations = relationship("Reservation", back_populates="salle")
-
-    # Added back_populates for two-way relationship
-    reservation = relationship("Reservation", back_populates="salle")
+    reservations = relationship("Reservation", back_populates="salle", cascade="all, delete-orphan")
