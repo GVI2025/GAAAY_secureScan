@@ -1,5 +1,0 @@
-repos:
-- repo: https://github.com/PyCQA/bandit
-  rev: '' # Update me!
-  hooks:
-  - id: bandit
