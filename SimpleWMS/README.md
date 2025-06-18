@@ -1,82 +1,65 @@
-# SimpleWMS
+# Système de réservation de salles
 
-A simple Warehouse Management System (WMS) WebAPI REST application built with FastAPI and SQLAlchemy.
+Une API REST pour la gestion des réservations de salles et équipements, construite avec FastAPI et SQLAlchemy.
 
-## 🧱 Features
+## 🧱 Fonctionnalités
 
-* Product and stock management (articles, emplacements, implantations)
-* Inbound flows (receptions)
-* Outbound flows (commandes, lignes de commande)
-* Operations and tasks (missions)
-* Agent tracking
+### MVP v1.0.0
+* Gestion des salles (création, consultation, modification, suppression)
+* Réservation de créneaux horaires (1h fixe)
+* Contrainte métier : pas de double réservation sur un même créneau
 
-## 🚀 Getting Started
+### v1.1.0
+* Filtrage des salles par disponibilité
+* Ajout de commentaires aux réservations
+* Suppression de réservations
+* Champ disponible pour les salles
 
-### 1. Clone the repository
+## 🚀 Démarrage rapide
+
+### 1. Cloner le dépôt
 
 ```bash
-git clone https://github.com/your-org/simplewms.git
-cd simplewms
+git clone https://github.com/GVI2025/GAAAY_secureScan
+cd GAAAY_secureScan
 ```
 
-### 2. Install Poetry (if not already installed)
+### 2. Installer Poetry (si pas déjà installé)
 
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
 ```
 
-Ensure `poetry` is available in your terminal:
-
-```bash
-poetry --version
-```
-
-### 3. Install dependencies
+### 3. Installer les dépendances
 
 ```bash
 poetry install
 ```
 
-### 4. Activate the virtual environment
+### 4. Activer l'environnement virtuel
 
 ```bash
 poetry shell
 ```
 
-### 5. Set up the database
-
-The application uses SQLite by default (configured in `app/database/database.py`).
-
-To create the schema, run:
+### 5. Configurer la base de données
 
 ```bash
 alembic upgrade head
 ```
 
-If needed, you can generate migrations using:
-
-```bash
-alembic revision --autogenerate -m "Initial schema"
-```
-
-### 6. Seed the database with test data
-
-```bash
-python -m app.seed.seed_data
-```
-
-### 7. Run the application
+### 6. Lancer l'application
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-The API will be available at: [http://localhost:8000](http://localhost:8000)
-Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
+L'API sera disponible sur : [http://localhost:8000](http://localhost:8000)
+Documentation Swagger : [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ---
 
-## 🧪 Running Tests
+## 🧪 Tests
 
 ```bash
 poetry run test
@@ -84,22 +67,42 @@ poetry run test
 
 ---
 
-## 📁 Project Structure
+## 📁 Structure du projet
 
 ```
 app/
 ├── api/               # API routers
 ├── models/            # SQLAlchemy models
+├── schemas/           # Pydantic schemas
+├── services/          # Business logic
 ├── database/          # DB session and engine
-├── seed/              # Initial data seeding
 ├── main.py            # FastAPI app
 alembic/               # Alembic migrations
 ```
 
 ---
 
+## 📊 Modèles de données
+
+### Salle
+- **id**: UUID (PK)
+- **nom**: string (unique)
+- **capacite**: integer
+- **localisation**: string
+- **disponible**: boolean (v1.1.0)
+
+### Réservation
+- **id**: UUID (PK)
+- **salle_id**: UUID (FK vers Salle)
+- **date**: date
+- **heure**: time
+- **utilisateur**: string
+- **commentaire**: string optionnel (v1.1.0)
+
+---
+
 ## 🔧 Scripts
 
-These scripts are defined in `pyproject.toml`:
-* `poetry run test`: Run tests
-* `poetry run migrate`: Apply Alembic migrations
+Ces scripts sont définis dans `pyproject.toml`:
+* `poetry run test`: Exécuter les tests
+* `poetry run migrate`: Appliquer les migrations Alembic
