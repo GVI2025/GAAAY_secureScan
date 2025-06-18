@@ -3,3 +3,4 @@ repos:
   rev: '' # Update me!
   hooks:
   - id: bandit
+    args : ["-ll"]
