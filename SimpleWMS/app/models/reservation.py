@@ -14,4 +14,5 @@ class Reservation(Base):
     utilisateur = Column(String, nullable=False)
     commentaire = Column(String, nullable=True)  # Added for v1.1.0
 
+    # Bidirectional relationship with salle
     salle = relationship("Salle", back_populates="reservations")

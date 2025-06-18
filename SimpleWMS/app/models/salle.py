@@ -15,3 +15,6 @@ class Salle(Base):
 
     # Relationship with reservations
     reservations = relationship("Reservation", back_populates="salle")
+
+    # Added back_populates for two-way relationship
+    reservation = relationship("Reservation", back_populates="salle")

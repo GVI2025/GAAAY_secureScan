@@ -44,13 +44,13 @@ poetry shell
 
 ### 5. Configurer la base de données
 
-Générer une nouvelle migration pour les tables salles et réservations :
-```bash
-alembic revision --autogenerate -m "Add salles and reservations tables"
-```
+**Important** : Générer et appliquer les migrations pour créer les tables :
 
-Appliquer les migrations :
 ```bash
+# Générer une nouvelle migration pour les tables salles et réservations
+alembic revision --autogenerate -m "Add salles and reservations tables"
+
+# Appliquer les migrations
 alembic upgrade head
 ```
 
@@ -83,11 +83,12 @@ poetry run test
 
 ```
 app/
-├── api/               # API routers
+├── routers/           # API routers
 ├── models/            # SQLAlchemy models
 ├── schemas/           # Pydantic schemas
 ├── services/          # Business logic
 ├── database/          # DB session and engine
+├── seed/              # Data seeding
 ├── main.py            # FastAPI app
 alembic/               # Alembic migrations
 tests/                 # Unit tests
@@ -119,3 +120,19 @@ tests/                 # Unit tests
 Ces scripts sont définis dans `pyproject.toml`:
 * `poetry run test`: Exécuter les tests
 * `poetry run migrate`: Appliquer les migrations Alembic
+
+---
+
+## 🐛 Résolution des problèmes
+
+### Erreur "no such table"
+
+Si vous obtenez l'erreur `no such table: reservations`, cela signifie que les migrations n'ont pas été appliquées :
+
+```bash
+# Générer la migration
+alembic revision --autogenerate -m "Add missing tables"
+
+# Appliquer la migration
+alembic upgrade head
+```
