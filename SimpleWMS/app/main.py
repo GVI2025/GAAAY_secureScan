@@ -16,6 +16,7 @@ app.include_router(commande.router)
 app.include_router(implantation.router)
 app.include_router(reception.router)
 app.include_router(mission.router)
+app.include_router(reservation.router)
 
 # New reservation system routers
 app.include_router(salle.router)
