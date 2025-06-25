@@ -4,5 +4,5 @@ repos:
     hooks:
       - id: bandit
         name: Bandit security linter
-        args: [-lll]
+        args: [-ll]
         types: [python]
